@@ -1,0 +1,21 @@
+{
+  "always_block": [
+    {"tool": "mcp__github__create_release", "risk_level": "deny"},
+    {"tool": "mcp__github__delete_branch", "risk_level": "deny"},
+    {"tool": "mcp__github__force_push", "risk_level": "deny"},
+    {"tool": "mcp__filesystem__write_file", "risk_level": "deny"},
+    {"tool": "mcp__filesystem__delete_file", "risk_level": "deny"},
+    {"tool": "mcp__slack__send_message", "risk_level": "ask"},
+    {"tool": "mcp__email__send", "risk_level": "ask"}
+  ],
+  "block_tool_patterns": [
+    "(?:^|_)(?:send|delete|remove|destroy|drop|force_push|create_release|publish|deploy|revoke|purge|wipe|update|set|modify|write|put|patch|rotate|grant|disable|enable|reset|terminate|approve|merge|cancel|exec(?:ute)?)(?:_|$)"
+  ],
+  "allow_tool_patterns": [
+    "(?:^|_)(?:get|list|read|search|query|fetch|describe|show|view|find|count|preview)(?:_|$)"
+  ],
+  "default_risk_level": "deny",
+  "unknown_verb_risk_level": "ask",
+  "comment": "三层策略：(1) allow_tool_patterns 命中 → 放行；(2) always_block 或 block_tool_patterns 命中 → 按 risk_level 处理（deny 硬阻断 / ask 弹窗）；(3) 未知动词（不在前两者）→ 按 unknown_verb_risk_level 处理（默认 ask 弹窗）。模式匹配作用于 mcp__<server>__<tool> 的 <tool> 段。",
+  "version": 4
+}

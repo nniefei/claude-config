@@ -1,0 +1,37 @@
+# secrets - 含 API token / 凭据，绝不入 git
+settings.json
+cc-studio.back.settings.json
+
+# runtime artifacts - 运行时产物 / 频繁变更 / 大体积
+history.jsonl
+logs/
+shell-snapshots/
+telemetry/
+statsig/
+cache/
+debug/
+file-history/
+session-env/
+sessions/
+image-cache/
+projects/*
+!projects/C--Users-nnie/
+projects/C--Users-nnie/*
+!projects/C--Users-nnie/memory/
+todos/
+tasks/
+plans/
+ide/
+backups/
+plugins/
+.update.lock
+.last-cleanup
+.last-update-result.json
+.grants/
+
+# python cache
+__pycache__/
+*.pyc
+*.pyo
+.idea/
+.vscode/

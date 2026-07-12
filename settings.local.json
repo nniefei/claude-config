@@ -1,0 +1,114 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python3 *)",
+      "Bash(python *)",
+      "Bash(export CLAUDE_HOOK_APPROVED_CONTROL_PLANE=1)",
+      "Bash(echo \"exit: $?\")",
+      "Bash(find ~/.claude/ -name *.json -maxdepth 2)",
+      "WebSearch"
+    ]
+  },
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "%USERPROFILE%/.claude/hook-runner.cmd bash-audit-post.py"
+          }
+        ]
+      },
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "%USERPROFILE%/.claude/hook-runner.cmd write-audit.py"
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "%USERPROFILE%/.claude/hook-runner.cmd bash-safety-wrapper.py"
+          },
+          {
+            "type": "command",
+            "command": "%USERPROFILE%/.claude/hook-runner.cmd rule-loader.py"
+          }
+        ]
+      },
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "%USERPROFILE%/.claude/hook-runner.cmd write-safety.py"
+          },
+          {
+            "type": "command",
+            "command": "%USERPROFILE%/.claude/hook-runner.cmd rule-loader.py"
+          }
+        ]
+      },
+      {
+        "matcher": "Skill",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "%USERPROFILE%/.claude/hook-runner.cmd rule-loader.py"
+          }
+        ]
+      },
+      {
+        "matcher": "mcp__.*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "%USERPROFILE%/.claude/hook-runner.cmd mcp-safety.py"
+          },
+          {
+            "type": "command",
+            "command": "%USERPROFILE%/.claude/hook-runner.cmd mcp-audit.py"
+          }
+        ]
+      }
+    ],
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "%USERPROFILE%/.claude/hook-runner.cmd session-start.py"
+          }
+        ]
+      }
+    ],
+    "UserPromptExpansion": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "%USERPROFILE%/.claude/hook-runner.cmd rule-loader.py"
+          }
+        ]
+      }
+    ],
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "%USERPROFILE%/.claude/hook-runner.cmd rule-loader.py"
+          }
+        ]
+      }
+    ]
+  }
+}
